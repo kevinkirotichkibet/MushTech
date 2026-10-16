@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "es2020", "lib": ["dom", "esnext"], "jsx": "preserve",
+    "module": "esnext", "moduleResolution": "bundler", "strict": true,
+    "skipLibCheck": true, "noEmit": true, "esModuleInterop": true,
+    "incremental": true, "allowJs": true, "isolatedModules": true,
+    "baseUrl": ".", "paths": { "@/*": ["./*"] }, "plugins": [{ "name": "next" }]
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
