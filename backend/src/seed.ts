@@ -7,7 +7,7 @@ dotenv.config();
 const data = [
   { name: 'Pink Oyster', variety: 'pink', description: 'Delicate, bacon-like flavour when fried.', pricePerKg: 12, stockKg: 40 },
   { name: 'Blue Oyster', variety: 'blue', description: 'Mild, savoury, great in stir-fries.', pricePerKg: 10, stockKg: 60 },
-  { name: 'Grey Oyster', variety: 'grey', description: 'Classic all-rounder with a meaty texture.', pricePerKg: 9, stockKg: 80 },
+  { name: 'Grey Oyster', variety: 'grey', description: 'Classic all-rounder with a meaty texture.', pricePerKg: 9, stockKg: 80, imageUrl: '/images/cluster.webp' },
   { name: 'Golden Oyster', variety: 'golden', description: 'Nutty aroma, vibrant yellow clusters.', pricePerKg: 14, stockKg: 30 },
   { name: 'King Oyster', variety: 'king', description: 'Thick stems, scallop-like when seared.', pricePerKg: 16, stockKg: 25 },
 ];

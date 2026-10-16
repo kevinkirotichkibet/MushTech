@@ -1,19 +1,28 @@
 import './globals.css';
-import Link from 'next/link';
+import type { Metadata } from 'next';
+import { Fraunces, Hanken_Grotesk } from 'next/font/google';
 import { CartProvider } from '@/lib/cart';
+import SiteHeader from '@/components/SiteHeader';
 
-export const metadata = { title: 'MushTech – Fresh Oyster Mushrooms' };
+const display = Fraunces({ subsets: ['latin'], variable: '--font-display', axes: ['opsz'] });
+const sans = Hanken_Grotesk({ subsets: ['latin'], variable: '--font-sans' });
+
+export const metadata: Metadata = {
+  title: 'MushTech | Oyster mushrooms by the kilo',
+  description: 'Pink, blue, grey, golden and king oyster mushrooms, sold by the kilo.',
+};
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <body>
         <CartProvider>
-          <header>
-            <Link href="/"><strong>🍄 MushTech</strong></Link>
-            <nav><Link href="/">Shop</Link><Link href="/cart">Cart</Link></nav>
-          </header>
-          <main>{children}</main>
+          <SiteHeader />
+          <main className="wrap">{children}</main>
+          <footer className="wrap site-footer">
+            <span>MushTech</span>
+            <span>Oyster mushrooms, by the kilo.</span>
+          </footer>
         </CartProvider>
       </body>
     </html>

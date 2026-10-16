@@ -31,3 +31,7 @@ then `npm i && npm run start:dev` in `backend/` and `npm i && npm run dev` in `f
 | POST | /orders | Place order (validates and decrements stock) |
 | GET | /orders | List orders |
 | PATCH | /orders/:id/status | Update order status |
+
+## Deploy
+Frontend on Vercel (root directory `frontend`, env `NEXT_PUBLIC_API_URL`), API on Render (Docker, root directory `backend`, env `MONGO_URI`, `CORS_ORIGIN`, `ADMIN_API_KEY`), database on MongoDB Atlas.
+Admin routes (create/edit/delete products, list orders) need the header `x-admin-key: <ADMIN_API_KEY>`.

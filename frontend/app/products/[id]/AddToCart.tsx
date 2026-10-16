@@ -1,22 +1,36 @@
 'use client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useCart } from '@/lib/cart';
+import { money } from '@/lib/format';
 import type { Product } from '@/lib/api';
+import Stepper from '@/components/Stepper';
 
 export default function AddToCart({ product }: { product: Product }) {
   const [qty, setQty] = useState(1);
+  const [added, setAdded] = useState(false);
   const { add } = useCart();
-  const router = useRouter();
+  const soldOut = product.stockKg < 0.5;
+
   return (
     <div>
-      <label>Quantity (kg)
-        <input type="number" min={0.5} step={0.5} max={product.stockKg} value={qty}
-          onChange={(e) => setQty(Number(e.target.value))} />
-      </label>
-      <button disabled={product.stockKg <= 0} onClick={() => { add(product, qty); router.push('/cart'); }}>
-        Add to cart
-      </button>
+      <div className="buy">
+        <Stepper value={qty} max={Math.max(product.stockKg, 0.5)} onChange={(n) => { setQty(n); setAdded(false); }} />
+        <div className="buy-total">
+          <span>Total</span>
+          <strong>{money(qty * product.pricePerKg)}</strong>
+        </div>
+      </div>
+      <div style={{ marginTop: 'var(--s-5)' }}>
+        <button className="btn" disabled={soldOut} onClick={() => { add(product, qty); setAdded(true); }}>
+          {soldOut ? 'Sold out' : 'Add to cart'}
+        </button>
+      </div>
+      {added && (
+        <p className="added" role="status">
+          Added to your cart. <Link href="/cart" className="link-btn" style={{ color: 'inherit' }}>View cart</Link>
+        </p>
+      )}
     </div>
   );
 }
