@@ -5,6 +5,9 @@ import { money } from '@/lib/format';
 import { variety } from '@/lib/varieties';
 import ProductImage from '@/components/ProductImage';
 
+// Data comes from the API at request time, never at build time.
+export const dynamic = 'force-dynamic';
+
 const SPANS = [7, 5, 5, 7, 12]; // asymmetric rhythm, repeats
 
 const TIPS = [

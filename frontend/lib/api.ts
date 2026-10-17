@@ -30,7 +30,9 @@ async function request<T>(path: string, o: { method?: string; body?: unknown; to
       body: o.body ? JSON.stringify(o.body) : undefined,
       cache: 'no-store',
     });
-  } catch {
+  } catch (e) {
+    // let Next.js's own control-flow errors (dynamic rendering) pass through untouched
+    if ((e as { digest?: string })?.digest === 'DYNAMIC_SERVER_USAGE') throw e;
     throw new ApiError('Cannot reach the server. If it was idle, wait a minute and try again.', 0);
   }
   const data = await res.json().catch(() => null);
