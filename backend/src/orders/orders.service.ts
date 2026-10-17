@@ -12,7 +12,7 @@ export class OrdersService {
     @InjectModel(Product.name) private products: Model<ProductDocument>,
   ) {}
 
-  async create(dto: CreateOrderDto) {
+  async create(dto: CreateOrderDto, userId: string) {
     const items = [];
     const reserved: { id: string; qty: number }[] = [];
     try {
@@ -33,8 +33,10 @@ export class OrdersService {
       throw e;
     }
     const total = +items.reduce((s, i) => s + i.qtyKg * i.unitPrice, 0).toFixed(2);
-    return this.orders.create({ ...dto, items, total });
+    return this.orders.create({ ...dto, user: userId, items, total });
   }
+
+  mine(userId: string) { return this.orders.find({ user: userId }).sort({ createdAt: -1 }); }
 
   findAll() { return this.orders.find().sort({ createdAt: -1 }); }
 

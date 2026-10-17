@@ -14,6 +14,7 @@ const OrderItemSchema = SchemaFactory.createForClass(OrderItem);
 
 @Schema({ timestamps: true })
 export class Order {
+  @Prop({ type: Types.ObjectId, ref: 'User', index: true }) user: Types.ObjectId;
   @Prop({ required: true }) customerName: string;
   @Prop({ required: true }) phone: string;
   @Prop({ required: true }) address: string;

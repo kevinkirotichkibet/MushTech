@@ -32,6 +32,22 @@ then `npm i && npm run start:dev` in `backend/` and `npm i && npm run dev` in `f
 | GET | /orders | List orders |
 | PATCH | /orders/:id/status | Update order status |
 
-## Deploy
-Frontend on Vercel (root directory `frontend`, env `NEXT_PUBLIC_API_URL`), API on Render (Docker, root directory `backend`, env `MONGO_URI`, `CORS_ORIGIN`, `ADMIN_API_KEY`), database on MongoDB Atlas.
-Admin routes (create/edit/delete products, list orders) need the header `x-admin-key: <ADMIN_API_KEY>`.
+## Auth (JWT)
+- `POST /auth/register`, `POST /auth/login` return `{ accessToken, user }`. Send the token as `Authorization: Bearer <token>`.
+- Customers must be logged in to place orders and can see their own (`GET /orders/mine`).
+- Admin role: manage products (`/products`, `/products/admin/all`) and orders (`GET /orders`, `PATCH /orders/:id/status`).
+- Create the admin with the seed script (`ADMIN_EMAIL`, `ADMIN_PASSWORD` in `backend/.env`).
+
+## Environment variables
+Secrets live in `backend/.env` locally and in the host dashboards in production. `.env` files are git-ignored; only `.env.example` is committed.
+
+| Where | Variable | Notes |
+|---|---|---|
+| Render (API) | `MONGO_URI` | Atlas connection string ending in `/mushtech` |
+| Render (API) | `JWT_SECRET` | 32+ random characters (`openssl rand -hex 32`) |
+| Render (API) | `JWT_EXPIRES_IN` | optional, default `1d` |
+| Render (API) | `CORS_ORIGIN` | your Vercel URL, no trailing slash |
+| Render (API) | `PORT` | `10000` |
+| Vercel (web) | `NEXT_PUBLIC_API_URL` | your Render URL, no trailing slash |
+
+Deploy: Vercel root directory `frontend`; Render runtime Docker, root directory `backend`, health check `/health`.

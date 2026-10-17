@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Fraunces, Hanken_Grotesk } from 'next/font/google';
 import { CartProvider } from '@/lib/cart';
+import { AuthProvider } from '@/lib/auth';
 import SiteHeader from '@/components/SiteHeader';
 
 const display = Fraunces({ subsets: ['latin'], variable: '--font-display', axes: ['opsz'] });
@@ -16,14 +17,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${display.variable} ${sans.variable}`}>
       <body>
-        <CartProvider>
-          <SiteHeader />
-          <main className="wrap">{children}</main>
-          <footer className="wrap site-footer">
-            <span>MushTech</span>
-            <span>Oyster mushrooms, by the kilo.</span>
-          </footer>
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <SiteHeader />
+            <main className="wrap">{children}</main>
+            <footer className="wrap site-footer">
+              <span>MushTech</span>
+              <span>Oyster mushrooms, by the kilo.</span>
+            </footer>
+          </CartProvider>
+        </AuthProvider>
       </body>
     </html>
   );
