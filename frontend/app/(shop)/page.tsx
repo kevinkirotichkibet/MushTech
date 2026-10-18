@@ -5,32 +5,38 @@ import { money } from '@/lib/format';
 import { variety } from '@/lib/varieties';
 import ProductImage from '@/components/ProductImage';
 
+// Data comes from the API at request time, never at build time.
+export const dynamic = 'force-dynamic';
+
 const SPANS = [7, 5, 5, 7, 12]; // asymmetric rhythm, repeats
 
 const TIPS = [
-  ['Tear, do not slice', 'Pull the cluster apart along the gills. Torn edges brown and crisp far better than cut ones.'],
+  ['Tear, do not slice', 'Pull oyster clusters apart along the gills. Torn edges brown and crisp far better than cut ones.'],
   ['Hot pan, no oil yet', 'Dry-sear until the water leaves and the edges colour, then add oil or butter.'],
   ['Salt at the end', 'Salt early and they steam. Salt once they are golden and they stay meaty.'],
 ];
 
 export default async function Home() {
   const products = await getProducts();
-  const totalKg = products.reduce((s, p) => s + p.stockKg, 0);
-  const cheapest = products.length ? Math.min(...products.map((p) => p.pricePerKg)) : 0;
-  const maxStock = Math.max(1, ...products.map((p) => p.stockKg));
+  const available = products.filter((p) => !p.comingSoon);
+  const soon = products.filter((p) => p.comingSoon);
+  const totalKg = available.reduce((s, p) => s + p.stockKg, 0);
+  const cheapest = available.length ? Math.min(...available.map((p) => p.pricePerKg)) : 0;
+  const maxStock = Math.max(1, ...available.map((p) => p.stockKg));
 
   return (
     <>
       <section className="hero">
         <div>
-          <p className="eyebrow">Oyster mushrooms, by the kilo</p>
+          <p className="eyebrow">Fresh mushrooms, by the kilo</p>
           <h1>Weighed to <em>order</em>, not to shelf.</h1>
-          <p className="lede">Pick a variety, choose your kilos, and we prepare the order. The stock shown below is what is on hand right now.</p>
+          <p className="lede">Pick a mushroom, choose your kilos, and we prepare the order. The stock shown below is what is on hand right now.</p>
           <a href="#harvest" className="btn">Browse the harvest</a>
           <dl className="stats">
-            <div><dd>{products.length}</dd><dt>varieties</dt></div>
+            <div><dd>{available.length}</dd><dt>available now</dt></div>
             <div><dd>{totalKg}</dd><dt>kg in stock</dt></div>
-            {products.length > 0 && <div><dd>{money(cheapest)}</dd><dt>per kg, from</dt></div>}
+            {available.length > 0 && <div><dd>{money(cheapest)}</dd><dt>per kg, from</dt></div>}
+            {soon.length > 0 && <div><dd>{soon.length}</dd><dt>coming soon</dt></div>}
           </dl>
         </div>
         <figure className="hero-photo">
@@ -46,21 +52,20 @@ export default async function Home() {
       </div>
 
       <div className="harvest">
-        {products.map((p, i) => {
+        {available.map((p, i) => {
           const span = SPANS[i % SPANS.length];
           const v = variety(p.variety);
+          const photo = !!p.imageUrl;
           return (
             <Link
               key={p._id}
               href={`/products/${p._id}`}
-              className={`tile span-${span} rise`}
+              className={`tile span-${span} rise ${photo ? '' : 'no-photo'}`}
               style={{ '--tint': v.tint, '--i': i } as CSSProperties}
             >
-              <div className={`tile-art ${p.imageUrl ? 'has-photo' : ''}`}>
-                <ProductImage imageUrl={p.imageUrl} variety={p.variety} alt={`${p.name} mushrooms`} />
-              </div>
+              {photo && <div className="tile-art has-photo"><ProductImage imageUrl={p.imageUrl} alt={`${p.name}`} /></div>}
               <div className="tile-body">
-                <span className="eyebrow">{v.label} oyster</span>
+                <span className="eyebrow">{v.label}</span>
                 <h3>{p.name}</h3>
                 <p>{p.description}</p>
                 <div className="meter" aria-hidden="true">
@@ -76,6 +81,26 @@ export default async function Home() {
           );
         })}
       </div>
+
+      {soon.length > 0 && (
+        <section aria-labelledby="soon-title">
+          <div className="section-head">
+            <h2 id="soon-title">Coming soon</h2>
+            <p>Not available to order yet</p>
+          </div>
+          <ul className="soon">
+            {soon.map((p) => (
+              <li key={p._id}>
+                <div>
+                  <h3>{p.name}</h3>
+                  <p>{p.description}</p>
+                </div>
+                <button className="btn" disabled>Coming soon</button>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
       <section className="kitchen">
         <div className="kitchen-photos" aria-hidden="true">

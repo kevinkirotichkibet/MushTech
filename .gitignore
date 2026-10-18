@@ -1,5 +1,8 @@
 node_modules
 dist
 .next
+# environment files hold secrets: never commit them
 .env
-.env.local
+.env.*
+!.env.example
+*.pem
