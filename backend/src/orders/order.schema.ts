@@ -12,10 +12,8 @@ class OrderItem {
 }
 const OrderItemSchema = SchemaFactory.createForClass(OrderItem);
 
-// own collection name so this shop never touches other apps that share the same MongoDB database
-@Schema({ timestamps: true, collection: 'shop_orders' })
+@Schema({ timestamps: true })
 export class Order {
-  @Prop({ type: Types.ObjectId, ref: 'User', index: true }) user: Types.ObjectId;
   @Prop({ required: true }) customerName: string;
   @Prop({ required: true }) phone: string;
   @Prop({ required: true }) address: string;

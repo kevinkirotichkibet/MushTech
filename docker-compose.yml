@@ -16,10 +16,7 @@ services:
     environment:
       MONGO_URI: mongodb://mongo:27017/mushtech
       PORT: 4000
-      JWT_SECRET: ${JWT_SECRET:-local-dev-only-secret-change-me-0123456789abcdef}
-      JWT_EXPIRES_IN: 1d
-      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+      ADMIN_API_KEY: ${ADMIN_API_KEY:-local-dev-key}
       CORS_ORIGIN: http://localhost:${WEB_PORT:-3000}
     ports:
       - "${API_PORT:-4000}:4000"
@@ -47,9 +44,6 @@ services:
     command: ["node", "dist/seed.js"]
     environment:
       MONGO_URI: mongodb://mongo:27017/mushtech
-      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
-      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
-      SEED_RESET: ${SEED_RESET:-false}
     depends_on:
       mongo:
         condition: service_healthy
