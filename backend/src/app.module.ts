@@ -6,7 +6,11 @@ import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
+import { AdminModule } from './admin/admin.module';
 import { HealthController } from './health.controller';
+import { SeedService } from './seed.service';
+import { Product, ProductSchema } from './products/product.schema';
+import { User, UserSchema } from './users/user.schema';
 
 @Module({
   imports: [
@@ -20,11 +24,16 @@ import { HealthController } from './health.controller';
         return { uri };
       },
     }),
+    MongooseModule.forFeature([
+      { name: Product.name, schema: ProductSchema },
+      { name: User.name, schema: UserSchema },
+    ]),
     AuthModule,
     ProductsModule,
     OrdersModule,
+    AdminModule,
   ],
   controllers: [HealthController],
-  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }, SeedService],
 })
 export class AppModule {}

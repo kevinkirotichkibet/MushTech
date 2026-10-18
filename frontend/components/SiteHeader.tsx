@@ -13,7 +13,8 @@ export default function SiteHeader() {
     <header className="site-header">
       <div className="wrap bar">
         <Link href="/" className="brand" aria-label="MushTech home">
-          <span className="brand-mark" aria-hidden="true" />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/brand/logo-mark.png" alt="" width={36} height={36} className="brand-img" />
           MushTech
         </Link>
         <nav aria-label="Main">
@@ -24,8 +25,8 @@ export default function SiteHeader() {
           </Link>
           {ready && user && (
             <>
-              {user.role === 'admin' && <Link href="/admin" className={on('/admin')}>Admin</Link>}
-              <Link href="/account" className={on('/account')}>{user.name.split(' ')[0]}</Link>
+              {user.role === 'admin' && <Link href="/admin">Dashboard</Link>}
+              <Link href="/account" className={on('/account')}>Account</Link>
               <button className="nav-btn" onClick={logout}>Log out</button>
             </>
           )}

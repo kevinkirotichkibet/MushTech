@@ -19,7 +19,7 @@ export class OrdersService {
       for (const line of dto.items) {
         // atomic stock decrement: only succeeds if enough stock remains
         const p = await this.products.findOneAndUpdate(
-          { _id: line.productId, active: true, stockKg: { $gte: line.qtyKg } },
+          { _id: line.productId, active: true, comingSoon: { $ne: true }, stockKg: { $gte: line.qtyKg } },
           { $inc: { stockKg: -line.qtyKg } },
           { new: true },
         );

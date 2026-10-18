@@ -5,7 +5,7 @@ NestJS API + Next.js storefront + MongoDB.
 ## Run (Docker)
 ```bash
 docker compose up --build -d                  # mongo + api (:4000) + web (:3000)
-docker compose --profile seed run --rm seed   # load sample products (first time)
+docker compose --profile seed run --rm --build seed   # load products + admin login (reads ADMIN_EMAIL / ADMIN_PASSWORD from .env)
 ```
 Open http://localhost:3000 · API at http://localhost:4000/products
 
@@ -51,3 +51,16 @@ Secrets live in `backend/.env` locally and in the host dashboards in production.
 | Vercel (web) | `NEXT_PUBLIC_API_URL` | your Render URL, no trailing slash |
 
 Deploy: Vercel root directory `frontend`; Render runtime Docker, root directory `backend`, health check `/health`.
+
+## Catalogue
+Launch products are Oyster and Button mushrooms. Pink, blue, golden and king oyster are marked "coming soon" (visible, not orderable).
+Reload the catalogue with `SEED_RESET=true` (compose: `SEED_RESET=true docker compose --profile seed run --rm --build seed`; Atlas: `SEED_RESET=true npm run seed` in `backend`). Users and orders are kept.
+Product photos live in `frontend/public/images/`; set a product's photo path in the admin Products page.
+
+## Admin
+Log in with the admin account, then open `/admin`: dashboard (KPIs, charts), orders, products, customers.
+
+## First start seeding (no shell needed)
+On start-up the API fills in what is missing: the launch products (only if the products collection is empty) and the admin login from `ADMIN_EMAIL` / `ADMIN_PASSWORD` (only if that account does not exist). Existing data and passwords are never changed. Set `AUTO_SEED=false` to turn it off.
+This works on Render's free tier and with `docker compose up`, so the manual seed script is only needed to reset data or an admin password.
+The shop stores its data in its own collections (`shop_products`, `shop_orders`, `shop_users`), so it can safely share a MongoDB database or cluster with another application without touching that app's data.

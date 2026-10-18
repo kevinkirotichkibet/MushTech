@@ -3,7 +3,8 @@ import { HydratedDocument } from 'mongoose';
 
 export type UserDocument = HydratedDocument<User>;
 
-@Schema({ timestamps: true })
+// own collection name so this shop never touches other apps that share the same MongoDB database
+@Schema({ timestamps: true, collection: 'shop_users' })
 export class User {
   @Prop({ required: true, trim: true }) name: string;
   @Prop({ required: true, unique: true, lowercase: true, trim: true }) email: string;

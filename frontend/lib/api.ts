@@ -4,7 +4,7 @@ const API = typeof window === 'undefined' ? process.env.API_INTERNAL_URL || PUBL
 
 export type Product = {
   _id: string; name: string; variety: string; description?: string;
-  pricePerKg: number; stockKg: number; imageUrl?: string; active?: boolean;
+  pricePerKg: number; stockKg: number; imageUrl?: string; active?: boolean; comingSoon?: boolean;
 };
 export type User = { id: string; name: string; email: string; role: 'customer' | 'admin' };
 export type AuthResult = { accessToken: string; user: User };
@@ -63,3 +63,16 @@ export const adminProducts = (token: string) => request<Product[]>('/products/ad
 export const createProduct = (body: unknown, token: string) => request<Product>('/products', { method: 'POST', body, token });
 export const updateProduct = (id: string, body: unknown, token: string) =>
   request<Product>(`/products/${id}`, { method: 'PATCH', body, token });
+
+// admin dashboard
+export type AdminStats = {
+  totals: { orders: number; ordersToday: number; pending: number; revenue: number; revenueToday: number; customers: number };
+  byStatus: Record<string, number>;
+  daily: { date: string; orders: number; revenue: number }[];
+  top: { name: string; kg: number; revenue: number }[];
+  stock: { name: string; stockKg: number; comingSoon?: boolean }[];
+  recent: { _id: string; customerName: string; total: number; status: string; createdAt: string }[];
+};
+export type Customer = { id: string; name: string; email: string; createdAt: string; orders: number; spent: number };
+export const adminStats = (token: string) => request<AdminStats>('/admin/stats', { token });
+export const adminCustomers = (token: string) => request<Customer[]>('/admin/customers', { token });

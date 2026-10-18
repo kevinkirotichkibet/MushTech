@@ -261,3 +261,22 @@ select { font: inherit; padding: .5rem .7rem; border: 1.5px solid var(--line); b
 .table input[type="number"] { width: 96px; padding: .4rem .5rem; border: 1.5px solid var(--line); border-radius: 8px; background: var(--paper); font: inherit; }
 .btn.small { padding: .45rem 1rem; font-size: .85rem; }
 .add-product { margin-top: var(--s-6); max-width: 480px; }
+
+/* ---------- No-photo tiles, coming soon ---------- */
+.tile.no-photo { background: var(--tint); }
+.tile.no-photo .tile-body { padding: var(--s-6) var(--s-5); min-height: 260px; }
+.tile.no-photo .tile-body h3 { font-size: var(--t-4); }
+.tile.no-photo .meter { background: rgba(29,38,25,.12); }
+.soon { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+.soon li { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); padding: var(--s-4) 0; border-bottom: 1px solid var(--line); }
+.soon h3 { font-size: var(--t-2); }
+.soon p { color: var(--ink-3); font-size: .95rem; }
+.soon .btn { flex: none; }
+.product.no-art { max-width: 640px; }
+.line.no-art { grid-template-columns: 1fr; }
+
+/* ---------- Logo ---------- */
+.brand-img { width: 36px; height: 36px; object-fit: contain; transition: transform .25s var(--ease); }
+.brand:hover .brand-img { transform: rotate(-6deg) scale(1.05); }
+.site-footer { align-items: center; }
+.footer-logo { width: 96px; height: auto; }
