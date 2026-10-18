@@ -7,5 +7,5 @@ const fmt = (n: number) =>
     maximumFractionDigits: 2,
   }).format(n);
 
-export const money = (n: number) => (Number.isFinite(n) ? fmt(n) : '-');
+export const money = fmt;
 export const kg = (n: number) => `${+n.toFixed(2)} kg`;

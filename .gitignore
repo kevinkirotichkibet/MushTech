@@ -3,11 +3,3 @@ dist
 .next
 .env
 .env.local
-.env.example
-*.env.example
-*.env.local
-*.env
-Images/
-Images 
-/backend/.env
-/backend/.env.example

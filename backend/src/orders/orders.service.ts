@@ -12,14 +12,14 @@ export class OrdersService {
     @InjectModel(Product.name) private products: Model<ProductDocument>,
   ) {}
 
-  async create(dto: CreateOrderDto, userId: string) {
+  async create(dto: CreateOrderDto) {
     const items = [];
     const reserved: { id: string; qty: number }[] = [];
     try {
       for (const line of dto.items) {
         // atomic stock decrement: only succeeds if enough stock remains
         const p = await this.products.findOneAndUpdate(
-          { _id: line.productId, active: true, comingSoon: { $ne: true }, stockKg: { $gte: line.qtyKg } },
+          { _id: line.productId, active: true, stockKg: { $gte: line.qtyKg } },
           { $inc: { stockKg: -line.qtyKg } },
           { new: true },
         );
@@ -33,10 +33,8 @@ export class OrdersService {
       throw e;
     }
     const total = +items.reduce((s, i) => s + i.qtyKg * i.unitPrice, 0).toFixed(2);
-    return this.orders.create({ ...dto, user: userId, items, total });
+    return this.orders.create({ ...dto, items, total });
   }
-
-  mine(userId: string) { return this.orders.find({ user: userId }).sort({ createdAt: -1 }); }
 
   findAll() { return this.orders.find().sort({ createdAt: -1 }); }
 

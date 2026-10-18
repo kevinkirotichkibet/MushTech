@@ -11,7 +11,6 @@ export class ProductsService {
   findAll(variety?: string) {
     return this.model.find({ active: true, ...(variety && { variety }) }).sort({ name: 1 });
   }
-  findAllAdmin() { return this.model.find().sort({ name: 1 }); }
   async findOne(id: string) {
     const p = await this.model.findById(id);
     if (!p) throw new NotFoundException('Product not found');

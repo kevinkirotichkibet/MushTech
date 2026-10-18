@@ -7,9 +7,6 @@ import ProductImage from '@/components/ProductImage';
 import AddToCart from './AddToCart';
 import CareGuide from '@/components/CareGuide';
 
-// Data comes from the API at request time, never at build time.
-export const dynamic = 'force-dynamic';
-
 export default async function ProductPage({ params }: { params: { id: string } }) {
   const p = await getProduct(params.id);
   const v = variety(p.variety);
