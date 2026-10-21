@@ -1,20 +1,21 @@
 import './globals.css';
-import type { Metadata } from 'next';
-import { Alfa_Slab_One, Figtree } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { Figtree } from 'next/font/google';
 import { CartProvider } from '@/lib/cart';
 import { AuthProvider } from '@/lib/auth';
 
-const display = Alfa_Slab_One({ subsets: ['latin'], weight: '400', variable: '--font-display' });
 const sans = Figtree({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
-  title: 'MushTech | Uyoga safi, by the kilo',
+  title: 'MushTech | Fresh mushrooms by the kilo',
   description: 'Fresh oyster and button mushrooms (uyoga safi), weighed to order and sold by the kilo in Kenya.',
 };
 
+export const viewport: Viewport = { themeColor: '#FAF9F6' };
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+    <html lang="en" className={sans.variable}>
       <body>
         <AuthProvider>
           <CartProvider>{children}</CartProvider>

@@ -14,14 +14,14 @@ export default function SiteHeader() {
       <div className="wrap bar">
         <Link href="/" className="brand" aria-label="MushTech home">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/logo-mark.png" alt="" width={36} height={36} className="brand-img" />
+          <img src="/brand/logo-mark.png" alt="" width={32} height={32} className="brand-img" />
           MushTech
         </Link>
         <nav aria-label="Main">
           <Link href="/" className={on('/')}>Shop</Link>
-          <Link href="/cart" className={`cart-link ${on('/cart')}`}>
+          <Link href="/cart" className={`cart-link ${on('/cart')}`} aria-label={count ? `Cart, ${count} ${count === 1 ? 'item' : 'items'}` : 'Cart'}>
             Cart
-            <span className={`badge ${count ? 'has' : ''}`} aria-label={`${count} items`}>{count}</span>
+            {count > 0 && <span className="badge" aria-hidden="true">{count}</span>}
           </Link>
           {user && (
             <>

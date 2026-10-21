@@ -25,11 +25,10 @@ export default function RegisterPage() {
 
   return (
     <section className="auth">
-      <p className="kicker"><b>Karibu</b> means welcome</p>
       <h1 className="page-title" style={{ padding: 0 }}>Create account</h1>
       <form className="summary" onSubmit={submit}>
         <div className="field"><label htmlFor="n">Full name</label><input id="n" required minLength={2} autoComplete="name" value={form.name} onChange={set('name')} /></div>
-        <div className="field"><label htmlFor="e">Email</label><input id="e" type="email" required autoComplete="email" value={form.email} onChange={set('email')} /></div>
+        <div className="field"><label htmlFor="e">Email</label><input id="e" type="email" required autoComplete="email" spellCheck={false} value={form.email} onChange={set('email')} /></div>
         <div className="field"><label htmlFor="p">Password</label><input id="p" type="password" required minLength={8} maxLength={72} autoComplete="new-password" value={form.password} onChange={set('password')} /><span className="hint">At least 8 characters.</span></div>
         <button className="btn" style={{ width: '100%' }} disabled={busy}>{busy ? 'Creating…' : 'Create account'}</button>
         {error && <p className="error" role="alert">{error}</p>}

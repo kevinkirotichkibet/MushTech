@@ -25,10 +25,9 @@ export default function LoginPage() {
 
   return (
     <section className="auth">
-      <p className="kicker"><b>Karibu</b> means welcome</p>
       <h1 className="page-title" style={{ padding: 0 }}>Log in</h1>
       <form className="summary" onSubmit={submit}>
-        <div className="field"><label htmlFor="e">Email</label><input id="e" type="email" required autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} /></div>
+        <div className="field"><label htmlFor="e">Email</label><input id="e" type="email" required autoComplete="email" spellCheck={false} value={email} onChange={(e) => setEmail(e.target.value)} /></div>
         <div className="field"><label htmlFor="p">Password</label><input id="p" type="password" required autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} /></div>
         <button className="btn" style={{ width: '100%' }} disabled={busy}>{busy ? 'Logging in…' : 'Log in'}</button>
         {error && <p className="error" role="alert">{error}</p>}

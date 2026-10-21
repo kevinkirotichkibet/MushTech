@@ -33,8 +33,8 @@ export default async function ProductPage({ params }: { params: { id: string } }
           ) : (
             <>
               <dl className="specs">
-                <div><dt>Price</dt><dd>{money(p.pricePerKg)} per kg</dd></div>
-                <div><dt>Available</dt><dd>{p.stockKg} kg</dd></div>
+                <div><dt>Price</dt><dd>{money(p.pricePerKg)} per kg</dd></div>
+                <div><dt>Available</dt><dd>{p.stockKg} kg</dd></div>
                 <div><dt>Sold by</dt><dd>The kilo, in half-kilo steps</dd></div>
               </dl>
               <AddToCart product={p} />

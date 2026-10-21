@@ -33,8 +33,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <aside className="adm-side" aria-label="Admin navigation">
         <div className="adm-brand">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/brand/logo-mark.png" alt="" width={44} height={44} className="adm-logo" />
-          <div><strong>MushTech</strong><span>A d m i n &nbsp; P a n e l</span></div>
+          <img src="/brand/logo-mark.png" alt="" width={32} height={32} className="adm-logo" />
+          <div><strong>MushTech</strong><span>Admin</span></div>
         </div>
         <nav>
           {NAV.map((n) => {

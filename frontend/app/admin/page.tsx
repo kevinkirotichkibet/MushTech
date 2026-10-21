@@ -5,7 +5,7 @@ import { useAdminData } from '@/lib/useAdminData';
 import { money } from '@/lib/format';
 import { AreaChart, BarChart, Donut } from '@/components/admin/Charts';
 
-const STATUS_COLORS: Record<string, string> = { pending: '#E0A526', confirmed: '#4F6B25', delivered: '#9DB86A', cancelled: '#B3261E' };
+const STATUS_COLORS: Record<string, string> = { pending: '#C9A24A', confirmed: '#4F6B25', delivered: '#A9BE7E', cancelled: '#B4553F' };
 const short = (iso: string) => new Date(iso + 'T00:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
 const compact = (n: number) => (n >= 1000 ? `${+(n / 1000).toFixed(1)}k` : String(Math.round(n)));
 
