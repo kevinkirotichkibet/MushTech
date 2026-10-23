@@ -11,7 +11,7 @@ export default function SiteHeader() {
   const on = (p: string) => (path === p ? 'on' : '');
   return (
     <header className="site-header">
-      <div className="wrap bar">
+      <div className="bar">
         <Link href="/" className="brand" aria-label="MushTech home">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/brand/logo-mark.png" alt="" width={32} height={32} className="brand-img" />

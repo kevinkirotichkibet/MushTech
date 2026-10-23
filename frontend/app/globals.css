@@ -19,6 +19,7 @@
   --gold: #C9A24A;
   --danger: #A3281A;
 
+  --gutter: clamp(1rem, 4vw, 3.5rem);
   --s-1: .25rem; --s-2: .5rem; --s-3: .75rem; --s-4: 1rem; --s-5: 1.5rem; --s-6: 2.5rem; --s-7: 4rem; --s-8: 6rem;
   --ease: cubic-bezier(.2,.7,.2,1);
   /* next/font sets --font-sans on <html>; the alias below must have a different name */
@@ -34,7 +35,7 @@ p { margin: 0; text-wrap: pretty; }
 a { color: inherit; }
 button { touch-action: manipulation; font-family: inherit; }
 img { max-width: 100%; }
-.wrap { width: min(1080px, 100% - 3rem); margin-inline: auto; }
+.wrap { width: 100%; max-width: 2000px; margin-inline: auto; padding-inline: var(--gutter); }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
 .skip { position: absolute; left: var(--s-4); top: -4rem; background: var(--ink); color: #fff; padding: .5rem .9rem; border-radius: 8px; z-index: 50; transition: top .15s var(--ease); }
 .skip:focus { top: var(--s-3); }
@@ -43,7 +44,7 @@ img { max-width: 100%; }
 
 /* ---------- Header / footer ---------- */
 .site-header { position: sticky; top: 0; z-index: 20; background: rgba(250,249,246,.92); backdrop-filter: saturate(1.4) blur(10px); border-bottom: 1px solid var(--line); }
-.bar { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+.bar { display: flex; align-items: center; justify-content: space-between; height: 64px; padding-inline: var(--gutter); }
 .brand { display: inline-flex; align-items: center; gap: .6rem; font-weight: 600; font-size: 1.05rem; letter-spacing: -.01em; text-decoration: none; }
 .brand-img { width: 32px; height: 32px; object-fit: contain; }
 .site-header nav { display: flex; align-items: center; gap: var(--s-1); }
@@ -53,7 +54,7 @@ img { max-width: 100%; }
 .cart-link { display: inline-flex; align-items: center; gap: .4rem; }
 .badge { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--ink); color: #fff; font-size: .7rem; font-weight: 600; display: inline-grid; place-items: center; font-variant-numeric: tabular-nums; }
 .site-footer { margin-top: var(--s-8); border-top: 1px solid var(--line); }
-.foot { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap; padding: var(--s-5) 0 var(--s-6); color: var(--ink-3); font-size: .875rem; }
+.foot { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); flex-wrap: wrap; padding: var(--s-5) var(--gutter) var(--s-6); color: var(--ink-3); font-size: .875rem; }
 .foot .who { display: inline-flex; align-items: center; gap: .6rem; }
 .footer-logo { width: 28px; height: 28px; object-fit: contain; }
 .ver { font-size: .75rem; color: var(--faint); margin-left: var(--s-2); }
@@ -95,7 +96,7 @@ select { width: auto; font-weight: 500; }
 .hero .lede { color: var(--ink-3); font-size: 1.15rem; max-width: 42ch; margin-bottom: var(--s-5); }
 .hero-cta { display: flex; align-items: center; gap: var(--s-5); flex-wrap: wrap; }
 .meta { margin-top: var(--s-6); display: flex; gap: var(--s-2) var(--s-5); flex-wrap: wrap; color: var(--ink-3); font-size: .9rem; }
-.hero-photo { margin: 0; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 5; background: var(--paper-2); }
+.hero-photo { margin: 0; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 5; max-height: 82vh; width: 100%; background: var(--paper-2); }
 .hero-photo img { width: 100%; height: 100%; object-fit: cover; object-position: 58% 50%; display: block; }
 @media (min-width: 860px) { .hero { grid-template-columns: 1.1fr .9fr; gap: var(--s-7); padding-top: var(--s-8); } }
 
@@ -121,16 +122,17 @@ select { width: auto; font-weight: 500; }
 .tile.no-photo { background: var(--paper-2); border-color: var(--paper-2); }
 .tile.no-photo .tile-body { padding: var(--s-5) var(--s-5) var(--s-5); gap: var(--s-2); }
 .tile.no-photo .tile-body h3 { font-size: 1.6rem; }
-@media (min-width: 760px) { .harvest { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 760px) { .harvest { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); } }
 
 .soon { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
 .soon li { display: flex; align-items: center; justify-content: space-between; gap: var(--s-4); padding: var(--s-4) 0; border-bottom: 1px solid var(--line); }
 .soon h3 { font-size: 1.05rem; letter-spacing: -.01em; }
 .soon p { color: var(--ink-3); font-size: .9rem; }
 .soon .btn { flex: none; }
+@media (min-width: 1000px) { .soon { display: grid; grid-template-columns: 1fr 1fr; column-gap: var(--s-7); } }
 
 .kitchen { display: grid; gap: var(--s-6); margin-top: var(--s-8); align-items: center; }
-.kitchen-photo { margin: 0; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 5; background: var(--paper-2); }
+.kitchen-photo { margin: 0; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 5; max-height: 82vh; background: var(--paper-2); }
 .kitchen-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .kitchen-copy h2 { font-size: clamp(1.75rem, 3.5vw, 2.5rem); margin: var(--s-3) 0 var(--s-5); max-width: 18ch; }
 .tips { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
@@ -145,7 +147,7 @@ select { width: auto; font-weight: 500; }
 .crumbs a { text-decoration: none; }
 @media (hover: hover) { .crumbs a:hover { color: var(--ink); text-decoration: underline; } }
 .product { display: grid; gap: var(--s-6); }
-.product-art { border-radius: 16px; overflow: hidden; background: var(--paper-2); aspect-ratio: 4 / 5; }
+.product-art { border-radius: 16px; overflow: hidden; background: var(--paper-2); aspect-ratio: 4 / 5; max-height: 82vh; }
 .product-info h1 { font-size: clamp(2rem, 4.5vw, 3rem); margin: var(--s-3) 0 var(--s-4); }
 .product-info .desc { color: var(--ink-3); font-size: 1.1rem; max-width: 40ch; }
 .specs { margin: var(--s-5) 0; border-top: 1px solid var(--line); }
@@ -214,7 +216,6 @@ select { width: auto; font-weight: 500; }
 .pill.cancelled { background: #F3DAD6; color: var(--danger); }
 
 @media (max-width: 600px) {
-  .wrap { width: min(1080px, 100% - 2rem); }
   .bar { height: 58px; }
   .site-header nav a, .nav-btn { padding: .45rem .55rem; font-size: .85rem; }
   .soon li { flex-wrap: wrap; }
