@@ -35,7 +35,8 @@ p { margin: 0; text-wrap: pretty; }
 a { color: inherit; }
 button { touch-action: manipulation; font-family: inherit; }
 img { max-width: 100%; }
-.wrap { width: 100%; max-width: 2000px; margin-inline: auto; padding-inline: var(--gutter); }
+/* page content sits in the middle with generous side padding; the header and footer stay edge to edge */
+.wrap { width: min(1240px, 100% - 2 * var(--gutter)); margin-inline: auto; }
 :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; border-radius: 4px; }
 .skip { position: absolute; left: var(--s-4); top: -4rem; background: var(--ink); color: #fff; padding: .5rem .9rem; border-radius: 8px; z-index: 50; transition: top .15s var(--ease); }
 .skip:focus { top: var(--s-3); }
