@@ -18,7 +18,9 @@ export default function SiteHeader() {
           MushTech
         </Link>
         <nav aria-label="Main">
-          <Link href="/" className={on('/')}>Shop</Link>
+          <Link href="/shop" className={path === '/shop' || path.startsWith('/products') ? 'on' : ''}>Shop</Link>
+          <Link href="/#about" className="nav-extra">About</Link>
+          <Link href="/#kitchen" className="nav-extra">Learn</Link>
           <Link href="/cart" className={`cart-link ${on('/cart')}`} aria-label={count ? `Cart, ${count} ${count === 1 ? 'item' : 'items'}` : 'Cart'}>
             Cart
             {count > 0 && <span className="badge" aria-hidden="true">{count}</span>}

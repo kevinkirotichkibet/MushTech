@@ -47,7 +47,7 @@ export default function CartPage() {
         <p>Thank you. We will contact you on the phone number you gave to confirm delivery.</p>
         <span className="eyebrow">Reference</span>
         <span className="ref">{orderId}</span>
-        <Link href="/" className="btn">Back to the shop</Link>
+        <Link href="/shop" className="btn">Back to the shop</Link>
       </section>
     );
   }
@@ -57,7 +57,7 @@ export default function CartPage() {
       <section className="empty">
         <h1 className="page-title" style={{ padding: 0 }}>Your cart is empty.</h1>
         <p>Choose a variety and a weight, and it will show up here.</p>
-        <Link href="/" className="btn">Browse the harvest</Link>
+        <Link href="/shop" className="btn">Browse the harvest</Link>
       </section>
     );
   }

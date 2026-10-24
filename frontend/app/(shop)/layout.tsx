@@ -6,7 +6,7 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
     <>
       <a href="#main" className="skip">Skip to content</a>
       <SiteHeader />
-      <main id="main" className="wrap">{children}</main>
+      <main id="main">{children}</main>
       <footer className="site-footer">
         <div className="foot">
           <span className="who">

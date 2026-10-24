@@ -28,7 +28,7 @@ export default function AccountPage() {
       <p className="meta-line">{user.email}</p>
       <div className="section-head"><h2>Your orders</h2></div>
       {error && <p className="error" role="alert">{error}</p>}
-      {orders && orders.length === 0 && <p>No orders yet. <Link href="/" style={{ textDecoration: 'underline' }}>Browse the harvest</Link></p>}
+      {orders && orders.length === 0 && <p>No orders yet. <Link href="/shop" style={{ textDecoration: 'underline' }}>Browse the harvest</Link></p>}
       <div className="orders">
         {orders?.map((o) => (
           <article className="order" key={o._id}>

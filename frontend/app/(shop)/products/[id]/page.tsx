@@ -18,7 +18,7 @@ export default async function ProductPage({ params }: { params: { id: string } }
   return (
     <>
       <nav className="crumbs" aria-label="Breadcrumb">
-        <Link href="/">Shop</Link><span aria-hidden="true">/</span><span>{p.name}</span>
+        <Link href="/shop">Shop</Link><span aria-hidden="true">/</span><span>{p.name}</span>
       </nav>
       <div className={`product ${photo ? '' : 'no-art'}`} style={{ '--tint': v.tint } as CSSProperties}>
         {photo && <div className="product-art has-photo"><ProductImage imageUrl={p.imageUrl} alt={p.name} /></div>}
