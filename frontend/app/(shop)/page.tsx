@@ -28,14 +28,14 @@ export default async function Home() {
           </figure>
           <div className="about-copy">
             <p className="eyebrow">About MushTech</p>
-            <h2>Fresh mushrooms, sold by the kilo.</h2>
-            <p className="lede-s">Oyster and button mushrooms to start, with more varieties on the way. Pick your weight, place the order, and we prepare it for you.</p>
+            <h2>Weighed when you order.</h2>
+            <p className="lede-s">Pick your weight, check out, and we prepare it for you. No standing stock waiting on a shelf.</p>
             <ul className="plain">
-              <li>Choose your weight in half-kilo steps.</li>
-              <li>Stock on the page is what is on hand right now.</li>
-              <li>Orders are prepared once you place them.</li>
+              <li>Half-kilo steps, from half a kilo up.</li>
+              <li>The stock shown is what is on hand right now.</li>
+              <li>Prepared as soon as you check out.</li>
             </ul>
-            <Link href="/shop" className="btn">Shop the harvest</Link>
+            <Link href="/shop" className="btn">Browse products</Link>
           </div>
         </section>
 

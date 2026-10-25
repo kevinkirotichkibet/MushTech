@@ -7,14 +7,13 @@ export default function ShopLayout({ children }: { children: React.ReactNode }) 
       <a href="#main" className="skip">Skip to content</a>
       <SiteHeader />
       <main id="main">{children}</main>
-      <footer className="site-footer">
+      <footer className="site-footer" data-version={VERSION}>
         <div className="foot">
           <span className="who">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/brand/logo-mark.png" alt="" width={28} height={28} className="footer-logo" loading="lazy" />
-            MushTech · Uyoga safi, by the kilo.
+            MushTech · Uyoga safi
           </span>
-          <span className="ver">v{VERSION}</span>
         </div>
       </footer>
     </>
