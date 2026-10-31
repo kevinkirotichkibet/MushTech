@@ -7,7 +7,8 @@ export type ProductDocument = HydratedDocument<Product>;
 @Schema({ timestamps: true, collection: 'shop_products' })
 export class Product {
   @Prop({ required: true }) name: string;
-  @Prop({ enum: ['oyster', 'button', 'pink', 'blue', 'grey', 'golden', 'king'], required: true }) variety: string;
+  // free-form category (e.g. "oyster", "shiitake"): new mushroom types can be added from the admin panel
+  @Prop({ required: true, trim: true, lowercase: true, maxlength: 40 }) variety: string;
   @Prop() description: string;
   @Prop({ required: true, min: 0 }) pricePerKg: number;
   @Prop({ default: 0, min: 0 }) stockKg: number;

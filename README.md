@@ -67,3 +67,7 @@ The shop stores its data in its own collections (`shop_products`, `shop_orders`,
 
 ## Currency
 Prices are shown in Kenya shillings (Ksh) via `frontend/lib/format.ts`. Prices are stored as plain numbers, so edit the amounts in the admin Products page.
+
+## Adding mushrooms
+Log in as admin, open **Products** and use **Add a mushroom**: name, category (any text, for example "shiitake"), price per kg in Ksh, stock, an optional photo and a "coming soon" switch.
+Photos are uploaded from the admin panel (JPEG, PNG or WebP up to 3 MB) and stored in MongoDB, so they survive redeploys. Each row also has Save, Change photo and Delete.

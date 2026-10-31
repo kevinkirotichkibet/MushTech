@@ -103,3 +103,12 @@
   .adm-user .who { display: none; }
 }
 @media (max-width: 520px) { .form-grid { grid-template-columns: 1fr; } }
+
+/* product photos in the admin */
+.prod-cell { display: flex; align-items: center; gap: var(--s-3); }
+.thumb { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; background: var(--paper-2); flex: none; display: block; }
+.thumb.none { border: 1px dashed var(--line-2); }
+.row-actions { display: flex; align-items: center; gap: var(--s-3); }
+.photo-pick { display: flex; align-items: center; gap: var(--s-3); flex-wrap: wrap; }
+.photo-pick .hint { font-size: .8rem; color: var(--ink-3); }
+.panel .added { margin-top: var(--s-3); color: var(--moss); font-weight: 500; }

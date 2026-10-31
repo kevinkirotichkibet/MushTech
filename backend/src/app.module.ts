@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
 import { AdminModule } from './admin/admin.module';
+import { UploadsModule } from './uploads/uploads.module';
 import { HealthController } from './health.controller';
 import { SeedService } from './seed.service';
 import { Product, ProductSchema } from './products/product.schema';
@@ -32,6 +33,7 @@ import { User, UserSchema } from './users/user.schema';
     ProductsModule,
     OrdersModule,
     AdminModule,
+    UploadsModule,
   ],
   controllers: [HealthController],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }, SeedService],

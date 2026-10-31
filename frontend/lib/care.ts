@@ -52,6 +52,26 @@ const BUTTON: CareSection[] = [
   ] },
 ];
 
+const GENERAL: CareSection[] = [
+  { title: 'Storage', items: [
+    'Keep them in the fridge in a paper bag or the original packaging, not in a sealed plastic bag.',
+    'Use them within a few days for the best flavour and texture.',
+    'Keep them away from strong smells, because mushrooms absorb odours.',
+  ] },
+  { title: 'Cleaning', items: [
+    'Brush off dirt or wipe with a damp paper towel.',
+    'If needed, rinse briefly and pat dry straight away. Do not soak them.',
+  ] },
+  { title: 'Cooking', items: [
+    'Cook them over medium to high heat until golden, without crowding the pan.',
+    'Season with salt near the end so they brown instead of steaming.',
+  ] },
+  { title: 'Good to know', items: [
+    'If a mushroom feels slimy, smells sour or has gone soft, do not eat it.',
+    'Cook them thoroughly if you are serving anyone who is pregnant, elderly or has a weak immune system.',
+  ] },
+];
+
 // Extra note shown first for each variety.
 const NOTES: Record<string, string> = {
   oyster: 'Oyster mushrooms grow in soft, fan-shaped clusters. They cook very quickly, so keep the heat high and the time short.',
@@ -64,5 +84,6 @@ const NOTES: Record<string, string> = {
 };
 
 export function careFor(variety: string) {
-  return { sections: variety === 'button' ? BUTTON : OYSTER, note: NOTES[variety] };
+  const sections = variety === 'button' ? BUTTON : variety.includes('oyster') || variety in NOTES ? OYSTER : GENERAL;
+  return { sections, note: NOTES[variety] };
 }

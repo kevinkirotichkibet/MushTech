@@ -119,7 +119,7 @@ select { width: auto; font-weight: 500; }
 .tile { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; text-decoration: none; color: inherit; transition: border-color .2s var(--ease); }
 @media (hover: hover) { .tile:hover { border-color: var(--line-2); } .tile:hover .photo { transform: scale(1.02); } }
 .tile-art { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--paper-2); }
-.photo { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s var(--ease); }
+.photo { width: 100%; height: 100%; object-fit: cover; object-position: 50% 30%; display: block; transition: transform .5s var(--ease); }
 .tile-body { display: flex; flex-direction: column; gap: var(--s-2); padding: var(--s-5); flex: 1; }
 .tile-body h3 { font-size: 1.25rem; }
 .tile-body p { color: var(--ink-3); font-size: .95rem; max-width: 40ch; }

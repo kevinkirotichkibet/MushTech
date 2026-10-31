@@ -8,7 +8,7 @@ const sans = Figtree({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: 'MushTech | Fresh mushrooms by the kilo',
-  description: 'Fresh oyster and button mushrooms (uyoga safi), weighed to order and sold by the kilo in Kenya.',
+  description: 'Fresh oyster mushrooms (uyoga safi), weighed to order and sold by the kilo in Kenya.',
 };
 
 export const viewport: Viewport = { themeColor: '#FAF9F6' };

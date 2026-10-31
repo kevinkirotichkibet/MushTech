@@ -18,7 +18,10 @@ export class ApiError extends Error {
   constructor(message: string, public status: number) { super(message); }
 }
 
-async function request<T>(path: string, o: { method?: string; body?: unknown; token?: string | null } = {}): Promise<T> {
+// Photos uploaded from the admin panel are served by the API; everything else (/images/...) is part of the website.
+export const imageSrc = (u?: string) => (u && u.startsWith('/uploads/') ? `${PUBLIC_API}${u}` : u);
+
+async function request<T>(path: string, o: { method?: string; body?: unknown; form?: FormData; token?: string | null } = {}): Promise<T> {
   let res: Response;
   try {
     res = await fetch(`${API}${path}`, {
@@ -27,7 +30,7 @@ async function request<T>(path: string, o: { method?: string; body?: unknown; to
         ...(o.body ? { 'Content-Type': 'application/json' } : {}),
         ...(o.token ? { Authorization: `Bearer ${o.token}` } : {}),
       },
-      body: o.body ? JSON.stringify(o.body) : undefined,
+      body: o.form ?? (o.body ? JSON.stringify(o.body) : undefined),
       cache: 'no-store',
     });
   } catch (e) {
@@ -76,3 +79,9 @@ export type AdminStats = {
 export type Customer = { id: string; name: string; email: string; createdAt: string; orders: number; spent: number };
 export const adminStats = (token: string) => request<AdminStats>('/admin/stats', { token });
 export const adminCustomers = (token: string) => request<Customer[]>('/admin/customers', { token });
+export const deleteProduct = (id: string, token: string) => request<{ deleted: boolean }>(`/products/${id}`, { method: 'DELETE', token });
+export function uploadImage(file: File, token: string) {
+  const form = new FormData();
+  form.append('file', file);
+  return request<{ url: string }>('/uploads', { method: 'POST', form, token });
+}

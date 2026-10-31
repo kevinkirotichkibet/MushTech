@@ -8,7 +8,7 @@ export default function LandingHero() {
       <div className="landing-shade" aria-hidden="true" />
       <div className="landing-copy">
         <h1>Fresh mushrooms, by the kilo.</h1>
-        <p>Oyster and button varieties, with more on the way.</p>
+        <p>Oyster mushrooms today, with more varieties on the way.</p>
         <Link href="/shop" className="btn-outline">Order now</Link>
       </div>
     </section>
