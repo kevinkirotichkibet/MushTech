@@ -71,3 +71,6 @@ Prices are shown in Kenya shillings (Ksh) via `frontend/lib/format.ts`. Prices a
 ## Adding mushrooms
 Log in as admin, open **Products** and use **Add a mushroom**: name, category (any text, for example "shiitake"), price per kg in Ksh, stock, an optional photo and a "coming soon" switch.
 Photos are uploaded from the admin panel (JPEG, PNG or WebP up to 3 MB) and stored in MongoDB, so they survive redeploys. Each row also has Save, Change photo and Delete.
+
+## Order sizes
+Every mushroom has a smallest order and a step, both in grams (default 250 g and 250 g, so 250 g, 500 g, 750 g, 1 kg ...). Change them per product in the admin Products page (Min / step). The server enforces the same rules when an order is placed.

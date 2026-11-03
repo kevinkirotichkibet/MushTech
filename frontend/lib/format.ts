@@ -12,3 +12,5 @@ const num = (n: number) =>
 // non-breaking space keeps "Ksh" and the amount on one line
 export const money = (n: number) => (Number.isFinite(n) ? `${LABEL}\u00A0${num(n)}` : '-');
 export const kg = (n: number) => `${+n.toFixed(2)} kg`;
+// 0.25 -> "250 g", 1.5 -> "1.5 kg"
+export const weight = (n: number) => (n < 1 ? `${Math.round(n * 1000)}\u00A0g` : `${+n.toFixed(3)}\u00A0kg`);

@@ -5,6 +5,7 @@ const API = typeof window === 'undefined' ? process.env.API_INTERNAL_URL || PUBL
 export type Product = {
   _id: string; name: string; variety: string; description?: string;
   pricePerKg: number; stockKg: number; imageUrl?: string; active?: boolean; comingSoon?: boolean;
+  minOrderKg?: number; stepKg?: number;
 };
 export type User = { id: string; name: string; email: string; role: 'customer' | 'admin' };
 export type AuthResult = { accessToken: string; user: User };
@@ -85,3 +86,7 @@ export function uploadImage(file: File, token: string) {
   form.append('file', file);
   return request<{ url: string }>('/uploads', { method: 'POST', form, token });
 }
+
+// Smallest order and step for a product, in kg (250 g unless the admin changed it)
+export const minOf = (p: Pick<Product, 'minOrderKg'>) => p.minOrderKg ?? 0.25;
+export const stepOf = (p: Pick<Product, 'stepKg'>) => p.stepKg ?? 0.25;

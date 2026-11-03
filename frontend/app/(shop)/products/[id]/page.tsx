@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import Link from 'next/link';
-import { getProduct } from '@/lib/api';
-import { money } from '@/lib/format';
+import { getProduct, minOf, stepOf } from '@/lib/api';
+import { money, weight } from '@/lib/format';
 import { variety } from '@/lib/varieties';
 import ProductImage from '@/components/ProductImage';
 import AddToCart from './AddToCart';
@@ -33,9 +33,10 @@ export default async function ProductPage({ params }: { params: { id: string } }
           ) : (
             <>
               <dl className="specs">
-                <div><dt>Price</dt><dd>{money(p.pricePerKg)} per kg</dd></div>
-                <div><dt>Available</dt><dd>{p.stockKg} kg</dd></div>
-                <div><dt>Sold by</dt><dd>The kilo, in half-kilo steps</dd></div>
+                <div><dt>Price</dt><dd>{money(p.pricePerKg)}&nbsp;per&nbsp;kg</dd></div>
+                <div><dt>Smallest order</dt><dd>{weight(minOf(p))}&nbsp;·&nbsp;{money(p.pricePerKg * minOf(p))}</dd></div>
+                <div><dt>Sold in steps of</dt><dd>{weight(stepOf(p))}</dd></div>
+                <div><dt>Available</dt><dd>{weight(p.stockKg)}</dd></div>
               </dl>
               <AddToCart product={p} />
             </>

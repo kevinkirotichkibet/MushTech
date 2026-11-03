@@ -112,3 +112,6 @@
 .photo-pick { display: flex; align-items: center; gap: var(--s-3); flex-wrap: wrap; }
 .photo-pick .hint { font-size: .8rem; color: var(--ink-3); }
 .panel .added { margin-top: var(--s-3); color: var(--moss); font-weight: 500; }
+
+.mini-pair { display: flex; gap: var(--s-2); }
+.adm-table .mini-pair input[type="number"] { width: 72px; }

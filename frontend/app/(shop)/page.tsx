@@ -31,7 +31,7 @@ export default async function Home() {
             <h2>Weighed when you order.</h2>
             <p className="lede-s">Pick your weight, check out, and we prepare it for you. No standing stock waiting on a shelf.</p>
             <ul className="plain">
-              <li>Half-kilo steps, from half a kilo up.</li>
+              <li>Order from as little as 250 g.</li>
               <li>The stock shown is what is on hand right now.</li>
               <li>Prepared as soon as you check out.</li>
             </ul>

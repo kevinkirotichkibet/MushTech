@@ -3,7 +3,7 @@ import { useEffect, useState, type CSSProperties } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/lib/cart';
 import { useAuth } from '@/lib/auth';
-import { placeOrder } from '@/lib/api';
+import { placeOrder, minOf, stepOf } from '@/lib/api';
 import { money } from '@/lib/format';
 import { variety } from '@/lib/varieties';
 import ProductImage from '@/components/ProductImage';
@@ -76,7 +76,7 @@ export default function CartPage() {
                   <h3>{l.product.name}</h3>
                   <p className="meta">{money(l.product.pricePerKg)} per kg</p>
                   <div className="line-row">
-                    <Stepper value={l.qtyKg} max={l.product.stockKg} onChange={(n) => setQty(l.product._id, n)} label={`Kilograms of ${l.product.name}`} />
+                    <Stepper value={l.qtyKg} min={minOf(l.product)} step={stepOf(l.product)} max={l.product.stockKg} onChange={(n) => setQty(l.product._id, n)} label={`Kilograms of ${l.product.name}`} />
                     <button className="link-btn" onClick={() => remove(l.product._id)}>Remove</button>
                     <span className="line-sum">{money(l.qtyKg * l.product.pricePerKg)}</span>
                   </div>

@@ -2,22 +2,25 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useCart } from '@/lib/cart';
-import { money } from '@/lib/format';
-import type { Product } from '@/lib/api';
+import { money, weight } from '@/lib/format';
+import { minOf, stepOf, type Product } from '@/lib/api';
 import Stepper from '@/components/Stepper';
 
 export default function AddToCart({ product }: { product: Product }) {
-  const [qty, setQty] = useState(1);
+  const min = minOf(product);
+  const step = stepOf(product);
+  const maxQty = Math.floor(product.stockKg / step + 1e-9) * step;
+  const soldOut = maxQty < min;
+  const [qty, setQty] = useState(min);
   const [added, setAdded] = useState(false);
   const { add } = useCart();
-  const soldOut = product.stockKg < 0.5;
 
   return (
     <div>
       <div className="buy">
-        <Stepper value={qty} max={Math.max(product.stockKg, 0.5)} onChange={(n) => { setQty(n); setAdded(false); }} />
+        <Stepper value={qty} min={min} max={Math.max(maxQty, min)} step={step} onChange={(n) => { setQty(n); setAdded(false); }} />
         <div className="buy-total">
-          <span>Total</span>
+          <span>Total for {weight(qty)}</span>
           <strong>{money(qty * product.pricePerKg)}</strong>
         </div>
       </div>

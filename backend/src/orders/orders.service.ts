@@ -17,6 +17,16 @@ export class OrdersService {
     const reserved: { id: string; qty: number }[] = [];
     try {
       for (const line of dto.items) {
+        // each product has its own smallest order and step (250 g by default)
+        const meta = await this.products.findById(line.productId).select('name minOrderKg stepKg').lean();
+        if (!meta) throw new BadRequestException(`Unknown product: ${line.productId}`);
+        const min = meta.minOrderKg ?? 0.25;
+        const step = meta.stepKg ?? 0.25;
+        const grams = (kg: number) => (kg < 1 ? `${Math.round(kg * 1000)} g` : `${+kg.toFixed(3)} kg`);
+        if (line.qtyKg + 1e-9 < min) throw new BadRequestException(`The minimum order for ${meta.name} is ${grams(min)}`);
+        if (Math.abs(line.qtyKg / step - Math.round(line.qtyKg / step)) > 1e-6) {
+          throw new BadRequestException(`${meta.name} is sold in steps of ${grams(step)}`);
+        }
         // atomic stock decrement: only succeeds if enough stock remains
         const p = await this.products.findOneAndUpdate(
           { _id: line.productId, active: true, comingSoon: { $ne: true }, pricePerKg: { $gt: 0 }, stockKg: { $gte: line.qtyKg } },

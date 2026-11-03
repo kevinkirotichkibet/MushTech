@@ -3,7 +3,7 @@ import { ArrayMinSize, IsArray, IsEnum, IsMongoId, IsNumber, IsString, Min, Vali
 
 class OrderItemDto {
   @IsMongoId() productId: string;
-  @IsNumber() @Min(0.1) qtyKg: number;
+  @IsNumber() @Min(0.05) qtyKg: number;
 }
 export class CreateOrderDto {
   @IsString() customerName: string;

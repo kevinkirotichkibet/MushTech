@@ -1,6 +1,6 @@
 'use client';
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import type { Product } from './api';
+import { minOf, stepOf, type Product } from './api';
 
 export type CartLine = { product: Product; qtyKg: number };
 type Ctx = {
@@ -27,7 +27,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
     if (ready) localStorage.setItem('cart', JSON.stringify(lines));
   }, [lines, ready]);
 
-  const clamp = (p: Product, q: number) => Math.min(Math.max(q, 0.5), p.stockKg);
+  const clamp = (p: Product, q: number) => {
+    const step = stepOf(p);
+    const min = minOf(p);
+    const max = Math.max(Math.floor(p.stockKg / step + 1e-9) * step, min);
+    return +Math.min(max, Math.max(min, Math.round(q / step) * step)).toFixed(3);
+  };
   const add = (product: Product, qty: number) =>
     setLines((l) => {
       const ex = l.find((x) => x.product._id === product._id);

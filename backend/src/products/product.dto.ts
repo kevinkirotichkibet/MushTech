@@ -9,6 +9,8 @@ export class CreateProductDto {
   @IsOptional() @IsString() description?: string;
   @IsNumber() @Min(0) pricePerKg: number;
   @IsNumber() @Min(0) stockKg: number;
+  @IsOptional() @IsNumber() @Min(0.05) minOrderKg?: number;
+  @IsOptional() @IsNumber() @Min(0.05) stepKg?: number;
   @IsOptional() @IsString() @MaxLength(300) imageUrl?: string;
   @IsOptional() @IsBoolean() active?: boolean;
   @IsOptional() @IsBoolean() comingSoon?: boolean;

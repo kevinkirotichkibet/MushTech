@@ -5,7 +5,7 @@ import { useAdminData } from '@/lib/useAdminData';
 import { variety } from '@/lib/varieties';
 
 const SUGGESTED = ['shiitake', 'portobello', 'king oyster', 'pink oyster', 'blue oyster', 'golden oyster', 'button'];
-const EMPTY = { name: '', variety: '', description: '', pricePerKg: 0, stockKg: 0, imageUrl: '', comingSoon: false };
+const EMPTY = { name: '', variety: '', description: '', pricePerKg: 0, stockKg: 0, minG: 250, stepG: 250, imageUrl: '', comingSoon: false };
 const MAX_BYTES = 3 * 1024 * 1024;
 
 // returns an error message, or '' when the file is fine
@@ -29,12 +29,16 @@ function Row({ p, token, onSaved, onDeleted, onError }: {
   const [stock, setStock] = useState(p.stockKg);
   const [active, setActive] = useState(p.active !== false);
   const [soon, setSoon] = useState(!!p.comingSoon);
+  const [minG, setMinG] = useState(Math.round(api.minOf(p) * 1000));
+  const [stepG, setStepG] = useState(Math.round(api.stepOf(p) * 1000));
   const [busy, setBusy] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
-  const dirty = price !== p.pricePerKg || stock !== p.stockKg || active !== (p.active !== false) || soon !== !!p.comingSoon;
+  const dirty = price !== p.pricePerKg || stock !== p.stockKg || active !== (p.active !== false) || soon !== !!p.comingSoon ||
+    minG !== Math.round(api.minOf(p) * 1000) || stepG !== Math.round(api.stepOf(p) * 1000);
 
   async function save() {
-    try { onSaved(await api.updateProduct(p._id, { pricePerKg: price, stockKg: stock, active, comingSoon: soon }, token)); }
+    if (minG < 50 || stepG < 50) return onError('Minimum order and step must be at least 50 g.');
+    try { onSaved(await api.updateProduct(p._id, { pricePerKg: price, stockKg: stock, active, comingSoon: soon, minOrderKg: minG / 1000, stepKg: stepG / 1000 }, token)); }
     catch (e: any) { onError(e.message); }
   }
   async function changePhoto(file?: File) {
@@ -64,7 +68,13 @@ function Row({ p, token, onSaved, onDeleted, onError }: {
         </div>
       </td>
       <td><input type="number" min={0} step="0.5" value={price} onChange={(e) => setPrice(Number(e.target.value))} aria-label={`${p.name} price per kg`} /></td>
-      <td><input type="number" min={0} step="0.5" value={stock} onChange={(e) => setStock(Number(e.target.value))} aria-label={`${p.name} stock in kg`} /></td>
+      <td><input type="number" min={0} step="0.05" value={stock} onChange={(e) => setStock(Number(e.target.value))} aria-label={`${p.name} stock in kg`} /></td>
+      <td>
+        <div className="mini-pair">
+          <input type="number" min={50} step={50} value={minG} onChange={(e) => setMinG(Number(e.target.value))} aria-label={`${p.name} smallest order in grams`} />
+          <input type="number" min={50} step={50} value={stepG} onChange={(e) => setStepG(Number(e.target.value))} aria-label={`${p.name} order step in grams`} />
+        </div>
+      </td>
       <td className="c"><input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} aria-label={`${p.name} visible in shop`} /></td>
       <td className="c"><input type="checkbox" checked={soon} onChange={(e) => setSoon(e.target.checked)} aria-label={`${p.name} coming soon`} /></td>
       <td>
@@ -104,7 +114,12 @@ export default function ProductsPage() {
     e.preventDefault();
     setError(''); setAdded('');
     try {
-      const body = { ...np, name: np.name.trim(), variety: np.variety.trim().toLowerCase(), imageUrl: np.imageUrl || undefined };
+      if (np.minG < 50 || np.stepG < 50) { setError('Minimum order and step must be at least 50 g.'); return; }
+      const body = {
+        name: np.name.trim(), variety: np.variety.trim().toLowerCase(), description: np.description,
+        pricePerKg: np.pricePerKg, stockKg: np.stockKg, minOrderKg: np.minG / 1000, stepKg: np.stepG / 1000,
+        imageUrl: np.imageUrl || undefined, comingSoon: np.comingSoon,
+      };
       const p = await api.createProduct(body, token!);
       setData((l) => [...(l ?? []), p]);
       setAdded(`${p.name} was added.`);
@@ -123,10 +138,10 @@ export default function ProductsPage() {
         {data && data.length > 0 && (
           <div className="adm-table-wrap">
             <table className="adm-table">
-              <thead><tr><th>Product</th><th>Price / kg (Ksh)</th><th>Stock kg</th><th className="c">Visible</th><th className="c">Coming soon</th><th>Photo</th><th /></tr></thead>
+              <thead><tr><th>Product</th><th>Price / kg (Ksh)</th><th>Stock kg</th><th>Min / step (g)</th><th className="c">Visible</th><th className="c">Coming soon</th><th>Photo</th><th /></tr></thead>
               <tbody>
                 {data.map((p) => (
-                  <Row key={p._id + p.pricePerKg + p.stockKg + String(p.active) + String(p.comingSoon) + (p.imageUrl ?? '')} p={p} token={token!}
+                  <Row key={p._id + p.pricePerKg + p.stockKg + String(p.active) + String(p.comingSoon) + (p.imageUrl ?? '') + (p.minOrderKg ?? '') + (p.stepKg ?? '')} p={p} token={token!}
                     onSaved={(u) => setData((l) => (l ? l.map((x) => (x._id === u._id ? u : x)) : l))}
                     onDeleted={(id) => setData((l) => (l ? l.filter((x) => x._id !== id) : l))}
                     onError={setError} />
@@ -147,7 +162,9 @@ export default function ProductsPage() {
           </label>
           <label className="full">Description<input value={np.description} onChange={(e) => setNp({ ...np, description: e.target.value })} placeholder="A short line customers will read" /></label>
           <label>Price per kg (Ksh)<input type="number" min={0} step="0.5" required value={np.pricePerKg} onChange={(e) => setNp({ ...np, pricePerKg: Number(e.target.value) })} /></label>
-          <label>Stock (kg)<input type="number" min={0} step="0.5" required value={np.stockKg} onChange={(e) => setNp({ ...np, stockKg: Number(e.target.value) })} /></label>
+          <label>Stock (kg)<input type="number" min={0} step="0.05" required value={np.stockKg} onChange={(e) => setNp({ ...np, stockKg: Number(e.target.value) })} /></label>
+          <label>Smallest order (g)<input type="number" min={50} step={50} required value={np.minG} onChange={(e) => setNp({ ...np, minG: Number(e.target.value) })} /></label>
+          <label>Order step (g)<input type="number" min={50} step={50} required value={np.stepG} onChange={(e) => setNp({ ...np, stepG: Number(e.target.value) })} /></label>
           <div className="full photo-pick">
             <input ref={fileRef} type="file" accept="image/jpeg,image/png,image/webp" hidden onChange={(e) => pickPhoto(e.target.files?.[0])} aria-label="Upload a photo" />
             <Thumb url={np.imageUrl} name={np.name || 'New product'} />

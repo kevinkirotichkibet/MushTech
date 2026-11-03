@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
 import * as api from '@/lib/api';
-import { money } from '@/lib/format';
+import { money, weight } from '@/lib/format';
 
 export default function AccountPage() {
   const { user, token, ready, logout } = useAuth();
@@ -37,7 +37,7 @@ export default function AccountPage() {
               <span className={`pill ${o.status}`}>{o.status}</span>
               <time>{new Date(o.createdAt).toLocaleDateString()}</time>
             </header>
-            <ul>{(o.items ?? []).map((i, n) => <li key={n}>{i.name}, {i.qtyKg} kg <span>{money(i.qtyKg * i.unitPrice)}</span></li>)}</ul>
+            <ul>{(o.items ?? []).map((i, n) => <li key={n}>{i.name}, {weight(i.qtyKg)} <span>{money(i.qtyKg * i.unitPrice)}</span></li>)}</ul>
             <footer>Total <strong>{money(o.total)}</strong></footer>
           </article>
         ))}

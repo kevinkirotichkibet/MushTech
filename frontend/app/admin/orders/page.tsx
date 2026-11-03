@@ -1,7 +1,7 @@
 'use client';
 import * as api from '@/lib/api';
 import { useAdminData } from '@/lib/useAdminData';
-import { money } from '@/lib/format';
+import { money, weight } from '@/lib/format';
 
 const STATUSES = ['pending', 'confirmed', 'delivered', 'cancelled'];
 
@@ -30,7 +30,7 @@ export default function OrdersPage() {
                 <tr key={o._id}>
                   <td><code>{o._id.slice(-6)}</code></td>
                   <td><strong>{o.customerName}</strong><br /><small>{o.phone}</small><br /><small>{o.address}</small></td>
-                  <td>{(o.items ?? []).map((i, n) => <div key={n}>{i.name}, {i.qtyKg} kg</div>)}</td>
+                  <td>{(o.items ?? []).map((i, n) => <div key={n}>{i.name}, {weight(i.qtyKg)}</div>)}</td>
                   <td className="r">{money(o.total)}</td>
                   <td>{new Date(o.createdAt).toLocaleString()}</td>
                   <td>

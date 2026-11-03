@@ -12,6 +12,9 @@ export class Product {
   @Prop() description: string;
   @Prop({ required: true, min: 0 }) pricePerKg: number;
   @Prop({ default: 0, min: 0 }) stockKg: number;
+  // smallest order and the step it grows by, in kg (0.25 = 250 g)
+  @Prop({ default: 0.25, min: 0.05 }) minOrderKg: number;
+  @Prop({ default: 0.25, min: 0.05 }) stepKg: number;
   @Prop() imageUrl: string;
   @Prop({ default: true }) active: boolean;
   // shown in the shop but cannot be ordered yet
